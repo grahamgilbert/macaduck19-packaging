@@ -12,7 +12,7 @@ jobs:
             paths:
               - '*.pkg'
 
-  upload:
+  upload_to_s3:
     macos:
       xcode: "10.1.0"
     shell: /bin/bash --login -o pipefail
@@ -28,7 +28,8 @@ workflows:
   version: 2
   upload:
     jobs:
-      - upload:
+      - build_pkg
+      - upload_to_s3:
           requires:
             - build_pkg
           filters:
@@ -38,3 +39,6 @@ workflows:
   build:
     jobs:
       - build_pkg
+    filters:
+      branches:
+        ignore: master
