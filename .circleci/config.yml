@@ -38,7 +38,7 @@ workflows:
 
   build:
     jobs:
-      - build_pkg
-      filters:
-        branches:
-          ignore: master
+      - build_pkg:
+          filters:
+            branches:
+              ignore: master
