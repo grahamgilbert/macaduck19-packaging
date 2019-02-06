@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    macos:
+      xcode: "10.1.0"
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - run: sh build.sh
+      - persist_to_workspace:
+            root: /tmp/output
+            paths:
+              - '*.pkg'
+
+  upload:
+    macos:
+      xcode: "10.1.0"
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - attach_workspace:
+          at: /tmp/output
+      - run: brew install awscli
+      - run:
+          name: Upload to s3
+          command: aws s3 sync /tmp/output s3://macaduck19/ --delete --acl public-read
+
+workflows:
+  version: 2
+  upload:
+    jobs:
+      - upload_to_s3:
+        requires:
+          - build
+    branches:
+      only:
+        - master
+
+  build:
+    jobs:
+      - build
