@@ -28,7 +28,7 @@ workflows:
   version: 2
   upload:
     jobs:
-      - upload_to_s3:
+      - upload:
         requires:
           - build
     branches:
