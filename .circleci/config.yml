@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_pkg:
     macos:
       xcode: "10.1.0"
     shell: /bin/bash --login -o pipefail
@@ -30,11 +30,11 @@ workflows:
     jobs:
       - upload:
           requires:
-            - build
+            - build_pkg
           filters:
               branches:
                 only: master
 
   build:
     jobs:
-      - build
+      - build_pkg
