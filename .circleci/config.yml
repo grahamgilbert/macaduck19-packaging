@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  aws-s3: circleci/aws-s3@1.0.0
+  aws-s3: circleci/aws-s3@1.0.3
 jobs:
   build_pkg:
     macos:
@@ -26,6 +26,7 @@ jobs:
           arguments: |
             --acl public-read \
             --delete
+          overwrite: true
 
 workflows:
   version: 2
