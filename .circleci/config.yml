@@ -1,6 +1,4 @@
-version: 2.1
-orbs:
-  aws-s3: circleci/aws-s3@1.0.3
+version: 2
 jobs:
   build_pkg:
     macos:
@@ -16,17 +14,14 @@ jobs:
 
   upload_to_s3:
     docker:
-      - image: 'circleci/python:2.7'
+      - image: 'circleci/python:3'
     steps:
       - attach_workspace:
           at: /tmp/output
-      - aws-s3/sync:
-          from: /tmp/output
-          to: 's3://macaduck19'
-          arguments: |
-            --acl public-read \
-            --delete
-          overwrite: true
+      - run: pip install awscli
+      - run:
+          name: Upload to s3
+          command: aws s3 sync /tmp/output s3://macaduck19/ --delete --acl public-read
 
 workflows:
   version: 2
