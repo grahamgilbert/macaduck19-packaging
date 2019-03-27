@@ -18,7 +18,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/output
-      - run: pip install awscli
+      - run: sudo pip install awscli
       - run:
           name: Upload to s3
           command: aws s3 sync /tmp/output s3://macaduck19/ --delete --acl public-read
