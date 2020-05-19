@@ -8,20 +8,20 @@ jobs:
       - checkout
       - run: sh build.sh
       - persist_to_workspace:
-            root: /tmp/output
-            paths:
-              - '*.pkg'
+          root: /tmp/output
+          paths:
+            - "*.pkg"
 
   upload_to_s3:
     docker:
-      - image: 'circleci/python:3'
+      - image: "circleci/python:3"
     steps:
       - attach_workspace:
           at: /tmp/output
       - run: sudo pip install awscli
       - run:
           name: Upload to s3
-          command: aws s3 sync /tmp/output s3://macaduck19/ --delete --acl public-read
+          command: aws s3 sync /tmp/output s3://practicalcicd/ --delete --acl public-read
 
 workflows:
   version: 2
@@ -32,8 +32,8 @@ workflows:
           requires:
             - build_pkg
           filters:
-              branches:
-                only: master
+            branches:
+              only: master
 
   build:
     jobs:
