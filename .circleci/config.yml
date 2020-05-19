@@ -15,6 +15,9 @@ jobs:
   upload_to_s3:
     docker:
       - image: "circleci/python:3"
+        environment:
+          AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     steps:
       - attach_workspace:
           at: /tmp/output
